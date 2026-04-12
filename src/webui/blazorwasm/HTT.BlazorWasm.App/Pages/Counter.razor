@@ -1,0 +1,119 @@
+@page "/counter"
+@inherits BlazorBaseComponent
+@inject LayoutService LayoutService
+
+<PageTitle>Counter — HTT Platform</PageTitle>
+
+<div class="counter-page">
+    <div class="counter-card">
+        <div class="counter-display">
+            <span class="counter-label">Current Count</span>
+            <span class="counter-value">@currentCount</span>
+        </div>
+        <div class="counter-bar">
+            <div class="counter-bar-fill" style="width: @(Math.Min(currentCount, 100))%"></div>
+        </div>
+        <div class="counter-actions">
+            <Button Variant="CBVariantType.Primary" OnClick="IncrementCount" Id="btn-increment" Icon="bi bi-plus-lg">
+                Increment
+            </Button>
+            <Button Variant="CBVariantType.Secondary" OnClick="ResetCount" Id="btn-reset" Icon="bi bi-arrow-counterclockwise">
+                Reset
+            </Button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .counter-page {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+        padding-top: var(--space-2);
+    }
+
+    .counter-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--card-border-radius);
+        padding: var(--space-8);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+        max-width: 28rem;
+        transition: var(--card-transition);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .counter-card:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    .counter-display {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .counter-label {
+        font-size: var(--text-sm);
+        font-weight: 500;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: var(--tracking-wide);
+    }
+
+    .counter-value {
+        font-size: 4rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: var(--tracking-tight);
+    }
+
+    .counter-bar {
+        width: 100%;
+        height: 4px;
+        background-color: var(--color-bg);
+        border-radius: var(--radius-full);
+        overflow: hidden;
+    }
+
+    .counter-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+        border-radius: var(--radius-full);
+        transition: width var(--duration-slow) var(--ease-spring);
+    }
+
+    .counter-actions {
+        display: flex;
+        gap: var(--space-3);
+    }
+</style>
+
+@code {
+    private int currentCount = 0;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        LayoutService.SetPageHeader("Counter", new List<BreadcrumbItem>
+        {
+            new BreadcrumbItem { Label = "Dashboard", Url = "/" },
+            new BreadcrumbItem { Label = "Counter", IsActive = true }
+        });
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private void ResetCount()
+    {
+        currentCount = 0;
+    }
+}

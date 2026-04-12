@@ -1,0 +1,77 @@
+@inherits BlazorBaseComponent
+@inject LayoutService LayoutService
+@implements IDisposable
+
+<header class="top-bar glass-subtle">
+    <div class="top-bar-start">
+        <Button Variant="CBVariantType.Ghost" Class="sidebar-toggle" OnClick="() => LayoutService.ToggleSidebar()" Title="@L["ToggleSidebar"]" Icon="bi bi-list">
+        </Button>
+        
+        <div class="breadcrumb-container">
+            @if (LayoutService.BreadcrumbsFragment != null)
+            {
+                <div class="breadcrumb-nav">
+                    @LayoutService.BreadcrumbsFragment
+                </div>
+            }
+            else
+            {
+                <Breadcrumbs />
+            }
+        </div>
+    </div>
+
+    <div class="top-bar-end">
+        <div class="d-none d-lg-flex search-box-wrapper">
+            <div class="search-box glass-input">
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="@L["SearchPlaceholder"]" />
+                <span class="search-kbd">⌘K</span>
+            </div>
+        </div>
+
+        <LanguageSelector />
+        
+        <div class="action-divider"></div>
+
+        <div class="theme-actions">
+            <Button Variant="CBVariantType.Secondary" Size="CBSizeType.Sm" OnClick="() => LayoutService.ToggleBrand()" Title="@L["SwitchBrand"]" Icon="bi bi-layers">
+            </Button>
+
+            <Button Variant="CBVariantType.Secondary" Size="CBSizeType.Sm" OnClick="() => LayoutService.ToggleTheme()" 
+                    Title="@L["ToggleTheme", L[$"Theme_{LayoutService.Theme}"]]" 
+                    Icon="@(LayoutService.Theme == CAppThemeType.System ? "bi bi-display" : (LayoutService.Theme == CAppThemeType.Dark ? "bi bi-sun" : "bi bi-moon-stars"))">
+            </Button>
+        </div>
+
+        <div class="user-profile">
+            <Tooltip Title="@L["UserProfile"]">
+                <div class="avatar-sm">
+                    <span>H</span>
+                </div>
+            </Tooltip>
+            <div class="user-info d-none d-md-flex">
+                <span class="user-name">HTT Admin</span>
+                <span class="user-role">Super User</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+@code {
+    [Inject] private IStringLocalizer<Topbar> L { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        LayoutService.OnLayoutChanged += HandleLayoutChanged;
+    }
+
+    private void HandleLayoutChanged() => StateHasChanged();
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        LayoutService.OnLayoutChanged -= HandleLayoutChanged;
+    }
+}

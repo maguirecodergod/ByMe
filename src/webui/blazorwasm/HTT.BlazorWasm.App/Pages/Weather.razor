@@ -1,0 +1,219 @@
+@page "/weather"
+@using System.Net.Http.Json
+@inherits BlazorBaseComponent
+@inject LayoutService LayoutService
+@inject HttpClient Http
+
+<PageTitle>Weather — HTT Platform</PageTitle>
+
+<div class="weather-page">
+    <div class="weather-card">
+        <div class="weather-card-header">
+            <div class="header-text">
+                <h2 class="card-title">Forecast Data</h2>
+                <p class="card-subtitle">Live updates from Account API gateway.</p>
+            </div>
+            <Button Variant="CBVariantType.Secondary" Size="CBSizeType.Sm" OnClick="Reload" Title="Refresh data" 
+                    IsLoading="@(forecasts == null && errorMessage == null)" 
+                    Icon="@((forecasts == null && errorMessage == null) ? "" : "bi bi-arrow-repeat")">
+                Refresh
+            </Button>
+        </div>
+
+        @if (errorMessage != null)
+        {
+            <div class="alert-banner alert-banner--danger">
+                <i class="bi bi-exclamation-triangle"></i>
+                <div class="alert-content">
+                    <span class="alert-title">Connection Error</span>
+                    <span class="alert-message">@errorMessage</span>
+                </div>
+            </div>
+        }
+        else if (forecasts == null)
+        {
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <span class="loading-text">Fetching data...</span>
+            </div>
+        }
+        else if (forecasts.Length == 0)
+        {
+            <div class="empty-state">
+                <i class="bi bi-cloud-slash"></i>
+                <span class="empty-title">No data available</span>
+            </div>
+        }
+        else
+        {
+            <div class="table-wrapper">
+                <table class="weather-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Temp</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var forecast in forecasts)
+                        {
+                            <tr>
+                                <td>@forecast.Date.ToShortDateString()</td>
+                                <td>
+                                    <span class="temp-chip @GetTempClass(forecast.TemperatureC)">
+                                        @forecast.TemperatureC°C
+                                    </span>
+                                </td>
+                                <td class="summary-text">@forecast.Summary</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .weather-page {
+        padding-top: var(--space-2);
+    }
+
+    .weather-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--card-border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .weather-card-header {
+        padding: var(--space-6);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--color-divider);
+    }
+
+    .card-title {
+        font-size: var(--text-lg);
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .card-subtitle {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+    }
+
+    /* Alert */
+    .alert-banner {
+        margin: var(--space-6);
+        padding: var(--space-4);
+        border-radius: var(--radius-lg);
+        display: flex;
+        gap: var(--space-3);
+        background: var(--color-danger-subtle);
+        border: 1px solid var(--color-danger);
+        color: var(--color-danger);
+    }
+
+    /* Table */
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .weather-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .weather-table th {
+        padding: var(--space-4) var(--space-6);
+        text-align: left;
+        background: var(--color-surface);
+        font-size: var(--text-xs);
+        text-transform: uppercase;
+        letter-spacing: var(--tracking-wider);
+        color: var(--color-text-muted);
+        border-bottom: 1px solid var(--color-divider);
+    }
+
+    .weather-table td {
+        padding: var(--space-4) var(--space-6);
+        font-size: var(--text-sm);
+        border-bottom: 1px solid var(--color-divider);
+    }
+
+    .weather-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .temp-chip {
+        padding: var(--space-1) var(--space-2);
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        font-size: var(--text-xs);
+    }
+
+    .temp-cold { background: var(--color-info-subtle); color: var(--color-info); }
+    .temp-mild { background: var(--color-success-subtle); color: var(--color-success); }
+    .temp-warm { background: var(--color-warning-subtle); color: var(--color-warning); }
+    .temp-hot { background: var(--color-danger-subtle); color: var(--color-danger); }
+
+    .summary-text { color: var(--color-text-secondary); }
+
+    /* States */
+    .loading-state { padding: var(--space-12); display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
+    .loading-spinner { width: 1.5rem; height: 1.5rem; border: 2px solid var(--color-border); border-top-color: var(--color-primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+@code {
+    private WeatherForecast[]? forecasts;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        LayoutService.SetPageHeader("Weather", new List<BreadcrumbItem>
+        {
+            new BreadcrumbItem { Label = "Dashboard", Url = "/" },
+            new BreadcrumbItem { Label = "Weather", IsActive = true }
+        });
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            errorMessage = null;
+            forecasts = null;
+            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("api/account/weatherforecast");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+
+    private async Task Reload() => await LoadData();
+
+    private string GetTempClass(int temp) => temp switch
+    {
+        int t when t < 10 => "temp-cold",
+        int t when t < 20 => "temp-mild",
+        int t when t < 30 => "temp-warm",
+        _ => "temp-hot"
+    };
+
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+    }
+}

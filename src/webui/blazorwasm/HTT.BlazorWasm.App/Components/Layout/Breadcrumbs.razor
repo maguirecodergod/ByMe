@@ -1,0 +1,158 @@
+@inherits BlazorBaseComponent
+@inject LayoutService LayoutService
+@implements IDisposable
+
+<nav class="master-breadcrumbs" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item home-item">
+            <a href="/" class="breadcrumb-link home-link" title="Home">
+                <i class="bi bi-house-door"></i>
+            </a>
+        </li>
+
+        @if (LayoutService.BreadcrumbItems == null || !LayoutService.BreadcrumbItems.Any())
+        {
+            <li class="breadcrumb-item active">
+                <span class="breadcrumb-text">@L[LayoutService.Title]</span>
+            </li>
+        }
+        else
+        {
+            @foreach (var item in LayoutService.BreadcrumbItems)
+            {
+                <li class="breadcrumb-item @(item.IsActive ? "active" : string.Empty)">
+                    @if (!string.IsNullOrEmpty(item.Url) && !item.IsActive)
+                    {
+                        <a href="@item.Url" class="breadcrumb-link">
+                            @if (!string.IsNullOrEmpty(item.Icon))
+                            {
+                                <i class="@item.Icon breadcrumb-icon"></i>
+                            }
+                            <span>@L[item.Label]</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="breadcrumb-text">
+                            @if (!string.IsNullOrEmpty(item.Icon))
+                            {
+                                <i class="@item.Icon breadcrumb-icon"></i>
+                            }
+                            <span>@L[item.Label]</span>
+                        </span>
+                    }
+                </li>
+            }
+        }
+    </ol>
+</nav>
+
+@code {
+    [Inject] private IStringLocalizer<Breadcrumbs> L { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        LayoutService.OnLayoutChanged += HandleLayoutChanged;
+    }
+
+    private void HandleLayoutChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        LayoutService.OnLayoutChanged -= HandleLayoutChanged;
+    }
+}
+
+<style>
+    .master-breadcrumbs {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+    .breadcrumb {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        margin: 0;
+        list-style: none !important;
+        align-items: center;
+        gap: 0;
+    }
+
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        font-size: var(--text-sm);
+        font-weight: 500;
+        white-space: nowrap;
+        color: var(--color-text-secondary);
+    }
+
+    /* PREMIUM SEPARATOR: Using CSS ::before instead of manual spans to avoid double-slash issues */
+    .breadcrumb-item+.breadcrumb-item::before {
+        content: "/";
+        margin: 0 var(--space-3);
+        color: var(--color-text-muted);
+        opacity: 0.5;
+        font-size: var(--text-xs);
+        font-weight: 400;
+        display: inline-block;
+    }
+
+    /* Special case for Home Icon + first item */
+    .home-item+.breadcrumb-item::before {
+        content: "/";
+    }
+
+    .breadcrumb-link {
+        color: var(--color-text-secondary);
+        text-decoration: none !important;
+        transition: color var(--duration-base) var(--ease-default);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .breadcrumb-link:hover {
+        color: var(--color-primary);
+    }
+
+    .home-link {
+        font-size: var(--text-lg);
+        color: var(--color-text-muted);
+        display: flex;
+        align-items: center;
+        padding: 2px;
+        border-radius: var(--radius-md);
+        transition: all var(--duration-base);
+    }
+
+    .home-link:hover {
+        background-color: var(--color-surface-hover);
+        color: var(--color-primary);
+    }
+
+    .breadcrumb-text {
+        color: var(--color-text-secondary);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .breadcrumb-item.active .breadcrumb-text {
+        color: var(--color-text);
+        font-weight: 600;
+    }
+
+    .breadcrumb-icon {
+        font-size: var(--text-xs);
+        opacity: 0.8;
+    }
+</style>

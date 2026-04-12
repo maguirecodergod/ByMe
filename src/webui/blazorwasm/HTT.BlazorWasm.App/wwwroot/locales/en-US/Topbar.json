@@ -1,0 +1,13 @@
+{
+  "ToggleSidebar": "Toggle Sidebar",
+  "About": "About ASP.NET Core",
+  "ChangeLanguage": "Change Language",
+  "SwitchBrand": "Switch Brand",
+  "ToggleTheme": "Toggle Theme ({0})",
+  "Theme_Light": "Light",
+  "Theme_Dark": "Dark",
+  "Theme_System": "System",
+  "SearchPlaceholder": "Search anything...",
+  "UserProfile": "User Profile",
+  "Dashboard": "Dashboard"
+}

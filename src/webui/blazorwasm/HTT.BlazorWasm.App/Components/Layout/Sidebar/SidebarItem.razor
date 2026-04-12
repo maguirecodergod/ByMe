@@ -1,0 +1,69 @@
+@inject LayoutService LayoutService
+@inject NavigationManager NavigationManager
+
+@if (IsVisible)
+{
+    @if (Item.Type == CNavigationItemType.Header)
+    {
+        @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
+        {
+            <div class="sidebar-header-label">@Item.Title</div>
+        }
+        else
+        {
+            <div class="sidebar-divider-tiny"></div>
+        }
+    }
+    else if (Item.Type == CNavigationItemType.Divider)
+    {
+        <div class="sidebar-divider"></div>
+    }
+    else if (Item.Type == CNavigationItemType.Group)
+    {
+        <SidebarGroup Item="Item" />
+    }
+    else
+    {
+        <div class="sidebar-item @(IsActive ? "active" : "")">
+            <NavLink class="sidebar-link" href="@Item.Url" Match="NavLinkMatch.All">
+                <Tooltip Title="@(LayoutService.SidebarType == CSidebarCollapseType.Collapsed ? Item.Title : "")">
+                    @if (!string.IsNullOrEmpty(Item.Icon))
+                    {
+                        <i class="@Item.Icon sidebar-icon"></i>
+                    }
+                </Tooltip>
+                
+                @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
+                {
+                    <span class="sidebar-text">@Item.Title</span>
+                    @if (!string.IsNullOrEmpty(Item.BadgeText))
+                    {
+                        <span class="sidebar-badge @Item.BadgeClass">@Item.BadgeText</span>
+                    }
+                }
+            </NavLink>
+        </div>
+    }
+}
+
+@code {
+    [Parameter, EditorRequired] public CNavigationItem Item { get; set; } = default!;
+
+    private bool IsActive => !string.IsNullOrEmpty(Item.Url) && 
+                              (Item.Url == "" ? NavigationManager.Uri.TrimEnd('/') == NavigationManager.BaseUri.TrimEnd('/') : 
+                               NavigationManager.Uri.Contains(Item.Url));
+
+    // Mock Permission Check
+    private bool IsVisible => CheckPermissions();
+
+    private bool CheckPermissions()
+    {
+        // In a real app, inject AuthenticationStateProvider and check roles/permissions
+        // Here we simulate permitting everything except specific demo cases
+        if (Item.Roles != null && Item.Roles.Any())
+        {
+             // return userRoles.Intersect(Item.Roles).Any();
+        }
+        return true;
+    }
+}

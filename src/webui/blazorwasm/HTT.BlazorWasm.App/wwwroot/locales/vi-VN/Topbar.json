@@ -1,0 +1,13 @@
+{
+  "ToggleSidebar": "Đóng/Mở thanh bên",
+  "About": "Về ASP.NET Core",
+  "ChangeLanguage": "Thay đổi ngôn ngữ",
+  "SwitchBrand": "Thay đổi thương hiệu",
+  "ToggleTheme": "Chế độ giao diện ({0})",
+  "Theme_Light": "Sáng",
+  "Theme_Dark": "Tối",
+  "Theme_System": "Hệ thống",
+  "SearchPlaceholder": "Tìm kiếm mọi thứ...",
+  "UserProfile": "Hồ sơ người dùng",
+  "Dashboard": "Bảng điều khiển"
+}

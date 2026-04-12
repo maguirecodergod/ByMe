@@ -1,0 +1,132 @@
+@using HTT.BlazorWasm.App.Services.Localization
+@inherits HTT.BlazorWasm.App.Components.Base.BlazorBaseComponent
+
+<div class="language-selector">
+    <Button Variant="CBVariantType.Secondary" Size="CBSizeType.Sm" OnClick="ToggleDropdown" Title="@L["ChangeLanguage"]" Icon="bi bi-translate">
+        @currentLanguageLabel
+    </Button>
+
+    @if (isDropdownOpen)
+    {
+        <div class="lang-dropdown glass-subtle" @onmouseleave="CloseDropdown">
+            @foreach (var culture in supportedCultures)
+            {
+                <div class="lang-option-wrapper">
+                    <button type="button" 
+                            class="lang-option @(culture.Key == currentCulture ? "active" : "")" 
+                            @onclick="() => ChangeLanguage(culture.Key)">
+                        <span class="lang-flag">@culture.Value.Flag</span>
+                        <span class="lang-name">@culture.Value.Name</span>
+                        @if (culture.Key == currentCulture)
+                        {
+                            <i class="bi bi-check2 active-check"></i>
+                        }
+                    </button>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Inject] private IStringLocalizer<LanguageSelector> L { get; set; } = default!;
+    private bool isDropdownOpen = false;
+    private string currentCulture => LocalizationService.CurrentCulture.Name;
+
+    private Dictionary<string, (string Name, string Flag)> supportedCultures = new()
+    {
+        ["en-US"] = ("English", "🇺🇸"),
+        ["vi-VN"] = ("Tiếng Việt", "🇻🇳")
+    };
+
+    private string currentLanguageLabel => supportedCultures.Keys.Contains(currentCulture) 
+        ? supportedCultures[currentCulture].Name 
+        : "English";
+
+    private void ToggleDropdown() => isDropdownOpen = !isDropdownOpen;
+    private void CloseDropdown() => isDropdownOpen = false;
+
+    private async Task ChangeLanguage(string culture)
+    {
+        if (currentCulture != culture)
+        {
+            await LocalizationService.SetCulture(culture);
+        }
+        isDropdownOpen = false;
+    }
+}
+
+<style>
+    .language-selector {
+        position: relative;
+        display: inline-block;
+    }
+
+    .lang-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: var(--space-2);
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        min-width: 180px;
+        z-index: 1000;
+        overflow: hidden;
+        box-shadow: var(--shadow-xl);
+        padding: var(--space-1);
+    }
+
+    .lang-option-wrapper {
+        width: 100%;
+    }
+
+    .lang-option {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-2) var(--space-4);
+        border: none;
+        background: transparent;
+        color: var(--color-text-secondary);
+        text-align: left;
+        cursor: pointer;
+        font-size: var(--text-sm);
+        font-weight: 500;
+        border-radius: var(--radius-md);
+        transition: all var(--duration-base);
+        margin-bottom: 2px;
+    }
+
+    .lang-option:last-child {
+        margin-bottom: 0;
+    }
+
+    .lang-option:hover {
+        background: var(--color-surface-hover);
+        color: var(--color-text);
+    }
+
+    .lang-option.active {
+        background: var(--color-primary-subtle);
+        color: var(--color-primary);
+        font-weight: 600;
+    }
+
+    .active-check {
+        margin-left: auto;
+        font-size: 1rem;
+    }
+
+    .lang-flag {
+        font-size: 1.25rem;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    .lang-name {
+        flex: 1;
+    }
+</style>

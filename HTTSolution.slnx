@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/frameworks/" />
+  <Folder Name="/src/frameworks/core/">
+    <Project Path="src/frameworks/core/HTT.AspNetCore/HTT.AspNetCore.csproj" />
+  </Folder>
+  <Folder Name="/src/gateway/" />
+  <Folder Name="/src/gateway/admin/">
+    <Project Path="src/gateway/admin/HTT.Admin.Gateway/HTT.Admin.Gateway.csproj" />
+  </Folder>
+  <Folder Name="/src/services/" />
+  <Folder Name="/src/services/account/">
+    <Project Path="src/services/account/HTT.Account.WebAPI/HTT.Account.WebAPI.csproj" />
+  </Folder>
+  <Folder Name="/src/webui/" />
+  <Folder Name="/src/webui/blazorwasm/">
+    <Project Path="src/webui/blazorwasm/HTT.BlazorWasm.App/HTT.BlazorWasm.App.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,189 @@
+/* ==========================================================================
+   NavMenu — Scoped Styles
+   Premium sidebar navigation using design tokens.
+   ========================================================================== */
+
+.nav-sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-3);
+    transition: padding var(--duration-base);
+}
+
+/* --- Header / Logo --- */
+.nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+}
+
+.nav-logo-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    border-radius: var(--radius-md);
+    color: #ffffff;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-logo-text {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-text);
+    letter-spacing: var(--tracking-tight);
+    white-space: nowrap;
+}
+
+/* --- Section Labels --- */
+.nav-section-label {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    padding: var(--space-3) var(--space-3) var(--space-2);
+}
+
+/* --- Nav Scrollable --- */
+.nav-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* --- Nav Items --- */
+.nav-item {
+    margin-bottom: 4px;
+}
+
+.nav-item ::deep a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text-secondary);
+    border-radius: var(--sidebar-item-radius);
+    font-size: var(--text-sm);
+    font-weight: 450;
+    text-decoration: none;
+    transition: all var(--duration-base) var(--ease-default);
+    line-height: 1;
+    min-height: 2.75rem;
+}
+
+.nav-item ::deep a:hover {
+    background-color: var(--sidebar-item-bg-hover);
+    color: var(--sidebar-item-fg-active);
+}
+
+.nav-item ::deep a.active {
+    background-color: var(--sidebar-item-bg-active);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.nav-item ::deep a.active .nav-icon {
+    color: var(--color-primary);
+    opacity: 1;
+}
+
+/* --- Nav Icons --- */
+.nav-icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 1.25rem;
+    opacity: 0.7;
+    transition: all var(--duration-base);
+}
+
+/* --- Footer --- */
+.nav-footer {
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--navbar-border);
+}
+
+.nav-footer-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text-muted);
+    border-radius: var(--sidebar-item-radius);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: all var(--duration-base) var(--ease-default);
+}
+
+.nav-footer-item:hover {
+    background-color: var(--sidebar-item-bg-hover);
+    color: var(--color-text);
+}
+
+/* --- Collapsed State --- */
+.nav-sidebar--collapsed {
+    padding: var(--space-4) 0;
+    align-items: center;
+}
+
+.nav-sidebar--collapsed .nav-header {
+    justify-content: center;
+    padding: 0;
+}
+
+.nav-sidebar--collapsed .nav-item ::deep a,
+.nav-sidebar--collapsed .nav-footer-item {
+    padding: 0;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    margin: 4px auto;
+    gap: 0;
+}
+
+.nav-sidebar--collapsed .nav-icon {
+    opacity: 0.8;
+}
+
+.nav-sidebar--collapsed .nav-footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .nav-sidebar--collapsed {
+        padding: var(--space-3);
+        align-items: stretch;
+    }
+    
+    .nav-sidebar--collapsed .nav-header {
+        justify-content: space-between;
+        padding: var(--space-2);
+    }
+
+    .nav-sidebar--collapsed .nav-item ::deep a,
+    .nav-sidebar--collapsed .nav-footer-item {
+        justify-content: flex-start;
+        padding: var(--space-3) var(--space-4);
+        width: 100%;
+        height: auto;
+        gap: var(--space-3);
+    }
+}

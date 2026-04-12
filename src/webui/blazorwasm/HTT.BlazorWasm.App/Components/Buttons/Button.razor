@@ -1,0 +1,33 @@
+@namespace HTT.BlazorWasm.App.Components.Buttons
+@inherits HTT.BlazorWasm.App.Components.Base.BlazorBaseComponent
+
+<Tooltip Title="@Title">
+    @if (!string.IsNullOrEmpty(Href))
+    {
+        <a href="@Href" class="@ComputeClasses() @Class" id="@Id">
+            @RenderContent()
+        </a>
+    }
+    else
+    {
+        <button type="@GetButtonType()" class="@ComputeClasses() @Class" disabled="@(Disabled || IsLoading)"
+                @onclick="OnClick" id="@Id">
+            @RenderContent()
+        </button>
+    }
+</Tooltip>
+
+@code {
+    private RenderFragment RenderContent() => __builder =>
+    {
+        if (IsLoading)
+        {
+            <i class="bi bi-arrow-repeat btn-spinner" aria-hidden="true"></i>
+        }
+        else if (!string.IsNullOrEmpty(Icon))
+        {
+            <i class="@Icon btn-icon" aria-hidden="true"></i>
+        }
+        <span class="btn-text">@ChildContent</span>
+    };
+}

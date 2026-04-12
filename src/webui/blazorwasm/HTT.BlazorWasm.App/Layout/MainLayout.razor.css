@@ -1,0 +1,96 @@
+/* ==========================================================================
+   MainLayout — Master Sidebar States
+   ========================================================================== */
+
+.page {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: background-color var(--duration-base);
+}
+
+/* --- Sidebar Master States --- */
+.sidebar {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    display: flex;
+    flex-direction: column;
+    z-index: var(--z-sticky);
+    transition: all var(--duration-slow) var(--ease-default);
+    overflow: hidden;
+}
+
+/* 1. Expanded (Default) */
+.sidebar--expanded {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+}
+
+/* 2. Collapsed (Mini) */
+.sidebar--collapsed {
+    width: 72px;
+    min-width: 72px;
+}
+
+/* 3. Hidden */
+.sidebar--hidden {
+    width: 0;
+    min-width: 0;
+    border-right-width: 0;
+}
+
+/* --- Main Content Area --- */
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background-color: var(--color-bg);
+}
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.content-area {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-6);
+    animation: fadeIn var(--duration-base) var(--ease-out);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        width: 280px;
+        min-width: 280px;
+        z-index: var(--z-modal);
+    }
+
+    /* In mobile, any non-hidden state shows as full overlay */
+    .sidebar--expanded, .sidebar--collapsed {
+        left: 0;
+        width: 280px;
+        min-width: 280px;
+    }
+
+    .sidebar--hidden {
+        left: -100%;
+    }
+
+    .content-area {
+        padding: var(--space-6) var(--space-4);
+    }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="HTT Platform — A modern SaaS management dashboard built with Blazor WebAssembly." />
+    <meta name="color-scheme" content="light dark" />
+    <title>HTT Platform</title>
+    <script>
+        // Restore saved theme before first paint to prevent flash
+        (function() {
+            var t = localStorage.getItem('htt-theme') || 'System';
+            var isDark = false;
+            if (t === 'System') {
+                isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            } else {
+                isDark = (t.toLowerCase() === 'dark');
+            }
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            document.documentElement.classList.add('no-transitions');
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    document.documentElement.classList.remove('no-transitions');
+                });
+            });
+        })();
+    </script>
+    <base href="/" />
+    <link rel="preload" id="webassembly" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="HTT.BlazorWasm.App.styles.css" rel="stylesheet" />
+    <script type="importmap"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="loading-wrapper">
+            <i class="bi bi-box-seam loading-spinner" style="font-size: 2.5rem; color: var(--color-primary);"></i>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <span class="loading-text">Starting HTT Platform...</span>
+        </div>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="js/tooltip.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <script>
+        (function () {
+            const loadingText = document.querySelector(".loading-progress-text");
+            const errorUi = document.getElementById("blazor-error-ui");
+
+            const slowBootTimer = setTimeout(() => {
+                if (loadingText) {
+                    loadingText.textContent = "Still loading... checking app resources";
+                }
+            }, 8000);
+
+            Blazor.start()
+                .then(() => clearTimeout(slowBootTimer))
+                .catch((error) => {
+                    clearTimeout(slowBootTimer);
+                    console.error("Blazor startup failed:", error);
+
+                    if (loadingText) {
+                        loadingText.textContent = "App failed to start. Please refresh.";
+                    }
+
+                    if (errorUi) {
+                        errorUi.style.display = "block";
+                    }
+                });
+        })();
+    </script>
+</body>
+
+</html>
