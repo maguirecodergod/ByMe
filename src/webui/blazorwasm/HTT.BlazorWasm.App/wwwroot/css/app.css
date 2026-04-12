@@ -13,8 +13,9 @@ html, body {
 /* --- Layout System --- */
 .page-layout {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
     background: var(--color-bg);
+    overflow: hidden;
 }
 
 .page-layout.layout-sidebar-top,
@@ -23,7 +24,7 @@ html, body {
 }
 
 .page-layout.layout-sidebar-right {
-    flex-direction: row-reverse;
+    flex-direction: row;
 }
 
 .main-wrapper {
@@ -31,6 +32,7 @@ html, body {
     display: flex;
     flex-direction: column;
     min-width: 0;
+    height: 100vh;
     transition: all var(--duration-base);
 }
 

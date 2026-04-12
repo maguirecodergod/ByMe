@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using HTT.BlazorWasm.App;
-using HTT.BlazorWasm.App.Components.Base;
 using HTT.BlazorWasm.App.Services.Localization;
 using HTT.BlazorWasm.App.Services.Layout;
-using System.Globalization;
 using Microsoft.JSInterop;
 using Microsoft.Extensions.Localization;
+using HTT.BlazorWasm.App.Components;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

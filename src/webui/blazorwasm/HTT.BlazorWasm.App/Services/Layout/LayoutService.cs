@@ -13,12 +13,12 @@ namespace HTT.BlazorWasm.App.Services.Layout
         private CAppThemeType _theme = CAppThemeType.System;
         private string _brand = "default";
         private CSidebarCollapseType _sidebarType = CSidebarCollapseType.Expanded;
-        private CSidebarPlacementType _sidebarPlacement = CSidebarPlacementType.Left;
+        private CSidebarPlacementType _sidebarPlacement = CSidebarPlacementType.Right;
         private int _sidebarWidth = 280; // Default width in pixels
         private string _title = "Dashboard";
         private RenderFragment? _breadcrumbsFragment;
         private List<BreadcrumbItem> _breadcrumbItems = new();
-        private List<CNavigationItem> _navigationItems = new();
+        private List<NavigationItem> _navigationItems = new();
         private DotNetObjectReference<LayoutService>? _dotNetRef;
 
         public event Action? OnLayoutChanged;
@@ -44,7 +44,7 @@ namespace HTT.BlazorWasm.App.Services.Layout
         public string Title => _title;
         public RenderFragment? BreadcrumbsFragment => _breadcrumbsFragment;
         public List<BreadcrumbItem> BreadcrumbItems => _breadcrumbItems;
-        public List<CNavigationItem> NavigationItems => _navigationItems;
+        public List<NavigationItem> NavigationItems => _navigationItems;
 
         public void SetPageHeader(string title, List<BreadcrumbItem>? items = null, RenderFragment? fragment = null)
         {
@@ -76,22 +76,22 @@ namespace HTT.BlazorWasm.App.Services.Layout
 
         private void InitializeDefaultNavigation()
         {
-            _navigationItems = new List<CNavigationItem>
+            _navigationItems = new List<NavigationItem>
             {
-                new CNavigationItem { Title = "Dashboard", Icon = "bi bi-speedometer2", Url = "" },
-                new CNavigationItem { Type = CNavigationItemType.Header, Title = "General" },
-                new CNavigationItem { Title = "Counter", Icon = "bi bi-plus-circle", Url = "counter" },
-                new CNavigationItem { Title = "Weather", Icon = "bi bi-cloud-sun", Url = "weather" },
-                new CNavigationItem { Type = CNavigationItemType.Divider },
-                new CNavigationItem { Type = CNavigationItemType.Header, Title = "Enterprise" },
-                new CNavigationItem { 
-                    Title = "Admin Tools", 
-                    Icon = "bi bi-shield-lock", 
+                new NavigationItem { Title = "Dashboard", Icon = "bi bi-speedometer2", Url = "" },
+                new NavigationItem { Type = CNavigationItemType.Header, Title = "General" },
+                new NavigationItem { Title = "Counter", Icon = "bi bi-plus-circle", Url = "counter" },
+                new NavigationItem { Title = "Weather", Icon = "bi bi-cloud-sun", Url = "weather" },
+                new NavigationItem { Type = CNavigationItemType.Divider },
+                new NavigationItem { Type = CNavigationItemType.Header, Title = "Enterprise" },
+                new NavigationItem {
+                    Title = "Admin Tools",
+                    Icon = "bi bi-shield-lock",
                     Type = CNavigationItemType.Group,
-                    Children = new List<CNavigationItem> 
+                    Children = new List<NavigationItem>
                     {
-                        new CNavigationItem { Title = "User Management", Icon = "bi bi-people", Url = "admin/users" },
-                        new CNavigationItem { Title = "Roles", Icon = "bi bi-node-plus", Url = "admin/roles" }
+                        new NavigationItem { Title = "User Management", Icon = "bi bi-people", Url = "admin/users" },
+                        new NavigationItem { Title = "Roles", Icon = "bi bi-node-plus", Url = "admin/roles" }
                     }
                 }
             };
@@ -178,7 +178,7 @@ namespace HTT.BlazorWasm.App.Services.Layout
 
             var themeValue = isActuallyDark ? "dark" : "light";
             var brandValue = _brand == "default" ? null : _brand;
-            
+
             await _js.InvokeVoidAsync("themeHelper.setAttributes", themeValue, brandValue);
         }
 

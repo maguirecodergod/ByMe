@@ -1,8 +1,9 @@
 @using HTT.BlazorWasm.App.Services.Localization
-@inherits HTT.BlazorWasm.App.Components.Base.BlazorBaseComponent
+@inherits BlazorBaseComponent
 
 <div class="language-selector">
-    <Button Variant="CBVariantType.Secondary" Size="CBSizeType.Sm" OnClick="ToggleDropdown" Title="@L["ChangeLanguage"]" Icon="bi bi-translate">
+    <Button Variant="CBVariantType.Secondary" Size="CBSizeType.Sm" OnClick="ToggleDropdown" Title="@L["ChangeLanguage"]"
+            Icon="bi bi-translate">
         @currentLanguageLabel
     </Button>
 
@@ -12,8 +13,7 @@
             @foreach (var culture in supportedCultures)
             {
                 <div class="lang-option-wrapper">
-                    <button type="button" 
-                            class="lang-option @(culture.Key == currentCulture ? "active" : "")" 
+                    <button type="button" class="lang-option @(culture.Key == currentCulture ? "active" : "")"
                             @onclick="() => ChangeLanguage(culture.Key)">
                         <span class="lang-flag">@culture.Value.Flag</span>
                         <span class="lang-name">@culture.Value.Name</span>
@@ -39,8 +39,8 @@
         ["vi-VN"] = ("Tiếng Việt", "🇻🇳")
     };
 
-    private string currentLanguageLabel => supportedCultures.Keys.Contains(currentCulture) 
-        ? supportedCultures[currentCulture].Name 
+    private string currentLanguageLabel => supportedCultures.Keys.Contains(currentCulture)
+        ? supportedCultures[currentCulture].Name
         : "English";
 
     private void ToggleDropdown() => isDropdownOpen = !isDropdownOpen;

@@ -1,12 +1,14 @@
-using Microsoft.JSInterop;
+using HTT.BlazorWasm.App.Services.Layout;
+using HTT.BlazorWasm.App.Services.Localization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using HTT.BlazorWasm.App.Services.Localization;
+using Microsoft.JSInterop;
 
 namespace HTT.BlazorWasm.App.Components
 {
-    public class BlazorBaseComponent : ComponentBase, IDisposable
+    public abstract class BlazorLayoutComponent : LayoutComponentBase
     {
+        [Inject] protected LayoutService LayoutService { get; set; } = default!;
         [Inject] protected ILogger<BlazorBaseComponent> Logger { get; set; } = default!;
         [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
         [Inject] protected IJSRuntime JS { get; set; } = default!;

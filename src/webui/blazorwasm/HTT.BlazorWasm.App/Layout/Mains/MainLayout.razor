@@ -1,0 +1,34 @@
+@namespace HTT.BlazorWasm.App.Layout
+@inherits BlazorLayoutComponent
+
+<div class="@GetLayoutClasses()" style="@GetLayoutStyles()">
+    @if (LayoutService.SidebarPlacement == CSidebarPlacementType.Top)
+    {
+        <NavMenu />
+    }
+
+    @if (LayoutService.SidebarPlacement == CSidebarPlacementType.Left)
+    {
+        <NavMenu />
+    }
+
+    <div class="main-wrapper">
+        <Topbar />
+
+        <main class="main-content">
+            <article class="content-area">
+                @Body
+            </article>
+        </main>
+    </div>
+
+    @if (LayoutService.SidebarPlacement == CSidebarPlacementType.Right)
+    {
+        <NavMenu />
+    }
+
+    @if (LayoutService.SidebarPlacement == CSidebarPlacementType.Bottom)
+    {
+        <NavMenu />
+    }
+</div>

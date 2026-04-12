@@ -1,4 +1,4 @@
-namespace HTT.BlazorWasm.App.Components.Base
+namespace HTT.BlazorWasm.App.Components
 {
     public interface IToaster
     {

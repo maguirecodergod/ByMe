@@ -1,0 +1,43 @@
+@namespace HTT.BlazorWasm.App.Layout
+@inherits BlazorLayoutComponent
+
+<div class="@GetSidebarClasses()" style="@GetSidebarStyles()">
+    <!-- Resize Handle (Only for Left/Right) -->
+    @if (IsVertical && LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
+    {
+        <div class="sidebar-resizer" @onmousedown="OnStartResize"></div>
+    }
+
+    <div class="sidebar-inner">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="bi bi-intersect"></i>
+                </div>
+                @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
+                {
+                    <span class="brand-text">HTT Enterprise</span>
+                }
+            </div>
+        </div>
+
+        <div class="sidebar-content">
+            @foreach (var item in LayoutService.NavigationItems)
+            {
+                <SidebarItem Item="item" />
+            }
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-inner">
+                <Tooltip Title="@(LayoutService.SidebarType == CSidebarCollapseType.Collapsed ? "Logout" : "")">
+                    <i class="bi bi-box-arrow-left sidebar-icon"></i>
+                </Tooltip>
+                @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
+                {
+                    <span class="sidebar-text">Logout</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+@namespace HTT.BlazorWasm.App.Components.Layout.Sidebar
+@inherits BlazorBaseComponent
+
+<div class="sidebar-group @(IsExpanded ? "is-expanded" : string.Empty) @(IsActive ? "is-active-group" : string.Empty)">
+    <div class="sidebar-group-header" @onclick="Toggle">
+        <Tooltip Title="@(LayoutService.SidebarType == CSidebarCollapseType.Collapsed ? Item.Title : string.Empty)">
+            @if (!string.IsNullOrEmpty(Item.Icon))
+            {
+                <i class="@Item.Icon sidebar-icon"></i>
+            }
+        </Tooltip>
+
+        @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
+        {
+            <span class="sidebar-text">@Item.Title</span>
+            <i class="bi bi-chevron-right sidebar-chevron"></i>
+        }
+    </div>
+
+    @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
+    {
+        <div class="sidebar-group-content">
+            @foreach (var child in Item.Children)
+            {
+                <SidebarItem Item="child" />
+            }
+        </div>
+    }
+</div>
