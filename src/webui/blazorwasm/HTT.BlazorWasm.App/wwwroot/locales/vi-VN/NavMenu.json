@@ -3,5 +3,11 @@
   "Counter": "Bộ đếm",
   "Weather": "Thời tiết",
   "Settings": "Cài đặt",
-  "Navigation": "Điều hướng"
+  "Navigation": "Điều hướng",
+  "General": "Chung",
+  "Enterprise": "Doanh nghiệp",
+  "Admin Tools": "Công cụ quản trị",
+  "User Management": "Quản lý người dùng",
+  "Roles": "Vai trò",
+  "Logout": "Đăng xuất"
 }

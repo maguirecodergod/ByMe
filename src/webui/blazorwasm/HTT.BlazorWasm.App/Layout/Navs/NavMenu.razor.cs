@@ -38,7 +38,14 @@ namespace HTT.BlazorWasm.App.Layout
 
         protected override void OnInitialized()
         {
+            base.OnInitialized();
             LayoutService.OnLayoutChanged += StateHasChanged;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            LayoutService.OnLayoutChanged -= StateHasChanged;
         }
 
         private async Task OnStartResize(MouseEventArgs e)

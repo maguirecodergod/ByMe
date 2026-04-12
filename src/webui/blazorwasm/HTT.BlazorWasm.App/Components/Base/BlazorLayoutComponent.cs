@@ -6,7 +6,7 @@ using Microsoft.JSInterop;
 
 namespace HTT.BlazorWasm.App.Components
 {
-    public abstract class BlazorLayoutComponent : LayoutComponentBase
+    public abstract class BlazorLayoutComponent : LayoutComponentBase, IDisposable
     {
         [Inject] protected LayoutService LayoutService { get; set; } = default!;
         [Inject] protected ILogger<BlazorBaseComponent> Logger { get; set; } = default!;

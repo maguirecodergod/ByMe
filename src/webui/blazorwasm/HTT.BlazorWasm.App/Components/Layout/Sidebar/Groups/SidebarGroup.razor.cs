@@ -23,6 +23,7 @@ namespace HTT.BlazorWasm.App.Components.Layout.Sidebar
 
         protected override void OnInitialized()
         {
+            base.OnInitialized();
             // Auto expand if active or was expanded
             IsExpanded = IsActive || Item.IsExpanded;
         }

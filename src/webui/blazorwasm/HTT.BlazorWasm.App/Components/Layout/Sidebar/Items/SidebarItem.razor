@@ -1,5 +1,6 @@
 @namespace HTT.BlazorWasm.App.Components.Layout.Sidebar
 @inherits BlazorBaseComponent
+@inject IStringLocalizer<NavMenu> L
 
 @if (IsVisible)
 {
@@ -7,7 +8,7 @@
     {
         @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
         {
-            <div class="sidebar-header-label">@Item.Title</div>
+            <div class="sidebar-header-label">@L[Item.Title]</div>
         }
         else
         {
@@ -26,7 +27,7 @@
     {
         <div class="sidebar-item @(IsActive ? "active" : string.Empty)">
             <NavLink class="sidebar-link" href="@Item.Url" Match="NavLinkMatch.All">
-                <Tooltip Title="@(LayoutService.SidebarType == CSidebarCollapseType.Collapsed ? Item.Title : "")">
+                <Tooltip Title="@(LayoutService.SidebarType == CSidebarCollapseType.Collapsed ? L[Item.Title] : "")">
                     @if (!string.IsNullOrEmpty(Item.Icon))
                     {
                         <i class="@Item.Icon sidebar-icon"></i>
@@ -35,7 +36,7 @@
 
                 @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
                 {
-                    <span class="sidebar-text">@Item.Title</span>
+                    <span class="sidebar-text">@L[Item.Title]</span>
                     @if (!string.IsNullOrEmpty(Item.BadgeText))
                     {
                         <span class="sidebar-badge @Item.BadgeClass">@Item.BadgeText</span>

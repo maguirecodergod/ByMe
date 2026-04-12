@@ -1,9 +1,10 @@
 @namespace HTT.BlazorWasm.App.Components.Layout.Sidebar
 @inherits BlazorBaseComponent
+@inject IStringLocalizer<NavMenu> L
 
 <div class="sidebar-group @(IsExpanded ? "is-expanded" : string.Empty) @(IsActive ? "is-active-group" : string.Empty)">
     <div class="sidebar-group-header" @onclick="Toggle">
-        <Tooltip Title="@(LayoutService.SidebarType == CSidebarCollapseType.Collapsed ? Item.Title : string.Empty)">
+        <Tooltip Title="@(LayoutService.SidebarType == CSidebarCollapseType.Collapsed ? L[Item.Title] : string.Empty)">
             @if (!string.IsNullOrEmpty(Item.Icon))
             {
                 <i class="@Item.Icon sidebar-icon"></i>
@@ -12,7 +13,7 @@
 
         @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
         {
-            <span class="sidebar-text">@Item.Title</span>
+            <span class="sidebar-text">@L[Item.Title]</span>
             <i class="bi bi-chevron-right sidebar-chevron"></i>
         }
     </div>

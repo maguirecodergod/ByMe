@@ -1,5 +1,6 @@
 @namespace HTT.BlazorWasm.App.Layout
 @inherits BlazorLayoutComponent
+@inject IStringLocalizer<NavMenu> L
 
 <div class="@GetSidebarClasses()" style="@GetSidebarStyles()">
     <!-- Resize Handle (Only for Left/Right) -->
@@ -30,12 +31,13 @@
 
         <div class="sidebar-footer">
             <div class="sidebar-footer-inner">
-                <Tooltip Title="@(LayoutService.SidebarType == CSidebarCollapseType.Collapsed ? "Logout" : "")">
+                <Tooltip
+                    Title="@(LayoutService.SidebarType == CSidebarCollapseType.Collapsed ? "Logout" : string.Empty)">
                     <i class="bi bi-box-arrow-left sidebar-icon"></i>
                 </Tooltip>
                 @if (LayoutService.SidebarType != CSidebarCollapseType.Collapsed)
                 {
-                    <span class="sidebar-text">Logout</span>
+                    <span class="sidebar-text">@L["Logout"]</span>
                 }
             </div>
         </div>

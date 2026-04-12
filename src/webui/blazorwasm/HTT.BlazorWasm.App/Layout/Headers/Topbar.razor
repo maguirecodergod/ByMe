@@ -1,10 +1,11 @@
 @namespace HTT.BlazorWasm.App.Layout
 @inherits BlazorLayoutComponent
+@inject IStringLocalizer<Topbar> L
 
 <header class="top-bar glass-subtle">
     <div class="top-bar-start">
         <Button Variant="CBVariantType.Ghost" Class="sidebar-toggle" OnClick="() => LayoutService.ToggleSidebar()"
-                Title="@Localizer["ToggleSidebar"]" Icon="bi bi-list">
+                Title="@L["ToggleSidebar"]" Icon="bi bi-list">
         </Button>
 
         <div class="breadcrumb-container">
@@ -25,7 +26,7 @@
         <div class="d-none d-lg-flex search-box-wrapper">
             <div class="search-box glass-input">
                 <i class="bi bi-search"></i>
-                <input type="text" placeholder="@Localizer["SearchPlaceholder"]" />
+                <input type="text" placeholder="@L["SearchPlaceholder"]" />
                 <span class="search-kbd">⌘K</span>
             </div>
         </div>
@@ -36,17 +37,17 @@
 
         <div class="theme-actions">
             <Button Variant="CBVariantType.Secondary" Size="CBSizeType.Sm" OnClick="() => LayoutService.ToggleBrand()"
-                    Title="@Localizer["SwitchBrand"]" Icon="bi bi-layers">
+                    Title="@L["SwitchBrand"]" Icon="bi bi-layers">
             </Button>
 
             <Button Variant="CBVariantType.Secondary" Size="CBSizeType.Sm" OnClick="() => LayoutService.ToggleTheme()"
-                    Title="@Localizer["ToggleTheme", Localizer[$"Theme_{LayoutService.Theme}"]]"
+                    Title="@L["ToggleTheme", L[$"Theme_{LayoutService.Theme}"]]"
                     Icon="@(LayoutService.Theme == CAppThemeType.System ? "bi bi-display" : (LayoutService.Theme == CAppThemeType.Dark ? "bi bi-sun" : "bi bi-moon-stars"))">
             </Button>
         </div>
 
         <div class="user-profile">
-            <Tooltip Title="@Localizer["UserProfile"]">
+            <Tooltip Title="@L["UserProfile"]">
                 <div class="avatar-sm">
                     <span>H</span>
                 </div>

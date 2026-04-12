@@ -3,5 +3,11 @@
   "Counter": "Counter",
   "Weather": "Weather",
   "Settings": "Settings",
-  "Navigation": "Navigation"
+  "Navigation": "Navigation",
+  "General": "General",
+  "Enterprise": "Enterprise",
+  "Admin Tools": "Admin Tools",
+  "User Management": "User Management",
+  "Roles": "Roles",
+  "Logout": "Logout"
 }
