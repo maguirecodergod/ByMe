@@ -1,0 +1,24 @@
+@namespace HTT.BlazorWasm.App.Components.Icons
+@using HTT.BlazorWasm.App.Models.Icons
+
+<span class="icon-renderer @Class" style="font-size: @Size; @Style">
+    @switch (Icon?.DisplayType)
+    {
+        case IconDisplayType.Emoji:
+            <span class="emoji-content">@Icon.Content</span>
+            break;
+        case IconDisplayType.Svg:
+            <span class="svg-content">@((MarkupString)Icon.Content)</span>
+            break;
+        case IconDisplayType.Css:
+            <i class="@Icon.Content"></i>
+            break;
+    }
+</span>
+
+@code {
+    [Parameter] public IconInfo? Icon { get; set; }
+    [Parameter] public string Size { get; set; } = "1rem";
+    [Parameter] public string Class { get; set; } = string.Empty;
+    [Parameter] public string Style { get; set; } = string.Empty;
+}

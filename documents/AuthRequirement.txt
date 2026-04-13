@@ -1,0 +1,29 @@
+- Xây dựng sản phẩm để bán ra thị trường:
+- Bao gồm các gói dịch vụ:
+    + Một doanh nghiệp có nhiều chi nhánh.
+    + Mỗi chi nhánh có nhiều cửa hàng.
+    + Mỗi người có thể có nhiều doanh nghiệp.
+    + Mỗi doanh nghiệp Có nhiều cấp bậc nhân viên khác nhau. (Quản lý chi nhánh, quản lý cửa hàng,...)
+- Sản phẩm cung cấp các gói.
+    + Mỗi doanh nghiệp mỗi database.
+    + Mỗi doanh nghiệp mỗi schema.
+    + Các doanh nghiệp chung database.
+    + Có thể kết hợp chung và riêng.
+- Super Admin  quản lý tất cả doanh nghiệp (Tenant)
+- Chủ doanh nghiệp có quyền quản lý riêng các chức năng của doanh nghiệp đó.
+    + Quản lý các chi nhánh.
+    + Quản lý các cửa hàng.
+    + ....
+- Mỗi Tenant Admin có thể tạo các role,lựa chọn các role, action, cấp quyền cho các user, nhân viên, phòng ban tương ứng.
+Khi người dùng lựa chọn đăng ký doanh nghiệp. Nhập các thông tin cần thiết của doanh nghiệp, tiến hành lựa chọn gói dịch vụ trong 4 gói tenant ở trên. Ứng với mỗi gói flow tự động hoàn thành tất cả các chức năng cần thiết.
+1. Database per tenant: Người dùng đăng ký tự động tạo database mới, connection string, migrator tất cả các table của hệ thống, seed quyền đầy đủ để quản lý doanh nghiệp.
+2. Database per schema
+3. Same Database.
+4. Hybrid.
+
+- Quan trọng nhất là khi người dùng lựa ứng với mỗi loại tenant thì sẽ có enum type phân biệt ở các request qua đó có chiến
+lượt resolved tenant hợp lý.
+- Đặc biệt seed Supper Admin user và logic auth cho supper admin sẽ khác biệt vì không có tenant lúc này.
+
+Với yêu cầu trên bạn là chuyên gia thiết kế hệ thống với .NET 10 hơn 30 năm kinh nghiệp hãy hoàn thành logic trên full code.
+Code production phục vụ hàng trăm nghìn tenant.

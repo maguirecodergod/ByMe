@@ -1,0 +1,16 @@
+.icon-renderer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.emoji-content {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.svg-content svg {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}

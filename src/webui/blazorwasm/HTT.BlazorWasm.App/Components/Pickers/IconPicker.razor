@@ -1,0 +1,96 @@
+@namespace HTT.BlazorWasm.App.Components.Pickers
+@inherits BlazorBaseComponent
+
+<div class="icon-picker-host @Class @(Disabled ? "disabled" : "")">
+    <div class="icon-trigger-wrapper" id="@_triggerId" @onclick="TogglePicker" role="button">
+        <Tooltip Title="@(_selectedIconInfo?.Name ?? "Select Expressive Icon")">
+            <div class="emoji-trigger @(string.IsNullOrEmpty(Value) ? "empty" : "selected")">
+                @if (_selectedIconInfo != null)
+                {
+                    <IconRenderer Icon="@_selectedIconInfo" Size="1.5rem" />
+                }
+                else
+                {
+                    <i class="bi bi-emoji-smile"></i>
+                }
+            </div>
+        </Tooltip>
+    </div>
+
+    @if (_isPickerOpen)
+    {
+        <div id="@_pickerId" class="emoji-picker-container glass-heavy @(_shouldFlipUp ? "is-top-mode" : "")" @onclick:stopPropagation="true">
+            <div class="picker-search">
+                <i class="bi bi-search"></i>
+                <input @ref="_searchInput"
+                       type="text" 
+                       placeholder="Search expressions..." 
+                       @oninput="OnSearchInput" />
+                @if (!string.IsNullOrEmpty(_searchTerm))
+                {
+                    <i class="bi bi-x-circle-fill clear-search" @onclick="ClearSearch"></i>
+                }
+            </div>
+
+            <div class="picker-body">
+                <div class="category-header">
+                    @(_selectedCategory ?? "All Expressions")
+                </div>
+                
+                <div class="picker-scroll-area">
+                    <Virtualize @ref="_virtualizeComponent" 
+                                ItemsProvider="LoadIconRows" 
+                                ItemSize="44" 
+                                OverscanCount="6"
+                                TItem="IconRow">
+                        <ItemContent>
+                            <div class="grid-row">
+                                @foreach (var icon in context.Icons)
+                                {
+                                    <Tooltip Title="@icon.Name" @key="icon.FullKey">
+                                        <div class="emoji-item @(Value == icon.FullKey ? "active" : "")" 
+                                             @onclick="() => SelectIcon(icon)">
+                                            <IconRenderer Icon="@icon" Size="1.5rem" />
+                                        </div>
+                                    </Tooltip>
+                                }
+                            </div>
+                        </ItemContent>
+                        <Placeholder>
+                            <div class="grid-row loading">
+                                @for (int i = 0; i < IconsPerRow; i++)
+                                {
+                                    <div class="emoji-item skeleton"></div>
+                                }
+                            </div>
+                        </Placeholder>
+                    </Virtualize>
+                </div>
+            </div>
+            
+            <div class="picker-footer">
+                <nav class="category-nav">
+                    <Button Variant="CBVariantType.Ghost" 
+                            Size="CBSizeType.Sm" 
+                            Class="@($"nav-btn {(string.IsNullOrEmpty(_selectedCategory) ? "active" : "")}")"
+                            OnClick="() => SelectCategory(null)"
+                            Title="Recent & All">
+                        <i class="bi bi-clock-history"></i>
+                    </Button>
+
+                    @foreach (var cat in _categories)
+                    {
+                        <Button Variant="CBVariantType.Ghost" 
+                                Size="CBSizeType.Sm" 
+                                Class="@($"nav-btn {(_selectedCategory == cat.Name ? "active" : "")}")"
+                                @key="cat.Name"
+                                OnClick="() => SelectCategory(cat.Name)"
+                                Title="@cat.Name">
+                            @cat.Icon
+                        </Button>
+                    }
+                </nav>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,212 @@
+@page "/icon-demo"
+@using HTT.BlazorWasm.App.Components.Pickers
+
+<div class="enterprise-demo">
+    <header class="demo-header">
+        <div class="badge-premium">Elite Hub Architecture</div>
+        <h1>Enterprise Icon Engine</h1>
+        <p>A unified system merging high-fidelity Emojis with industrial Bootstrap Icons.</p>
+    </header>
+
+    <div class="demo-content">
+        <section class="demo-card">
+            <div class="card-header">
+                <h3>Global Picker</h3>
+                <span>4,500+ Assets • Smart Virtualization • Multi-Source</span>
+            </div>
+            
+            <div class="tester-stats">
+                <div class="stat-item">
+                    <span class="label">Total Icons</span>
+                    <span class="value">4,500+</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Categories</span>
+                    <span class="value">12 Global Groups</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Technology</span>
+                    <span class="value">Hybrid UTF8/SVG</span>
+                </div>
+            </div>
+
+            <div class="picker-container-demo">
+                <div class="picker-control">
+                    <label>Main Picker</label>
+                    <IconPicker @bind-Value="_selectedIcon" />
+                </div>
+            </div>
+            
+            <div class="selection-mirror">
+                <div class="mirror-label">Binding State (FullKey):</div>
+                <div class="mirror-value">@(_selectedIcon ?? "null")</div>
+            </div>
+        </section>
+
+        <section class="demo-card features">
+            <h3>Enterprise Capabilities</h3>
+            <ul class="feature-list">
+                <li><strong>Dynamic Multi-Set Loading</strong> (Emoji DB + SVG Libraries)</li>
+                <li><strong>O(n) -> O(1) Indexing</strong> (Optimized search dictionary)</li>
+                <li><strong>Memory Efficient Rows</strong> (Virtualize ItemSize: 44px)</li>
+                <li><strong>Visual Consistency</strong> (Harmonious sizing for all sets)</li>
+                <li><strong>Aria Ready</strong> (Production accessibility)</li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+<style>
+    .enterprise-demo {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        font-family: var(--font-primary);
+    }
+    .demo-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+    .badge-premium {
+        display: inline-block;
+        padding: 0.25rem 1rem;
+        background: var(--color-primary-subtle);
+        color: var(--color-primary);
+        border-radius: var(--radius-full);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 1rem;
+    }
+    .tester-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: var(--color-surface-dim);
+        padding: 1rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border);
+    }
+    .stat-item .label { font-size: 0.65rem; color: var(--color-text-muted); text-transform: uppercase; }
+    .stat-item .value { font-weight: 800; color: var(--color-primary); font-size: 1.1rem; }
+
+    .demo-header h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        letter-spacing: -2px;
+        background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .demo-content {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 2rem;
+    }
+    .demo-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-2xl);
+        padding: 2.5rem;
+        box-shadow: var(--shadow-2xl);
+    }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 2.5rem;
+    }
+    .card-header span {
+        font-size: 0.75rem;
+        color: var(--color-text-muted);
+    }
+    .picker-container-demo {
+        display: flex;
+        padding: 3rem;
+        background: var(--color-bg-alt);
+        border-radius: var(--radius-xl);
+        justify-content: center;
+        border: 2px dashed var(--color-border);
+    }
+    .picker-control {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .picker-control label {
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--color-text-secondary);
+        letter-spacing: 1px;
+    }
+    .selection-mirror {
+        margin-top: 2rem;
+        padding: 1.25rem;
+        background: var(--color-surface-dim);
+        border-radius: var(--radius-lg);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid var(--color-divider);
+    }
+    .mirror-label { font-size: 0.8rem; font-weight: 600; }
+    .mirror-value { font-family: var(--font-mono); color: var(--color-primary); font-size: 0.8rem; font-weight: 700; }
+    
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+    }
+    .feature-list li {
+        padding: 0.85rem 0;
+        border-bottom: 1px solid var(--color-divider);
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .feature-list li::before {
+        content: "✦";
+        color: var(--color-primary);
+        font-weight: bold;
+    }
+    /* --- Responsive Master Styles --- */
+    @@media (max-width: 1024px) {
+        .demo-content {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .enterprise-demo {
+            padding: 2rem 1rem;
+        }
+        .demo-header h1 {
+            font-size: 2.2rem;
+            letter-spacing: -1px;
+        }
+        .picker-container-demo {
+            padding: 1.5rem;
+        }
+        .tester-stats {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+        .demo-card {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+@code {
+    private string? _selectedIcon = "Enterprise Hub:bi-award-fill";
+}
